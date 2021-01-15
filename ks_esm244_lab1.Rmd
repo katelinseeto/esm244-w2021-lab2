@@ -45,7 +45,9 @@ penguins_pca <- penguins %>%
   scale() %>% 
   prcomp()
 
-penguins_pca$rotation
+penguins_pca$rotation # brings up the loadings for each of the 4 variables along that principle component
+
+
 
 
 ```
