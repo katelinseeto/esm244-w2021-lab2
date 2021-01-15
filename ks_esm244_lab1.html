@@ -379,7 +379,28 @@ summary {
 </div>
 
 
+<div id="part-1-pca-with-penguins-data" class="section level2">
+<h2>Part 1: PCA with penguins data</h2>
+<p>First some wrangling! Select columns we need, remove n/a since isn’t useful when looking at multivariate space, scale data to make sure no variable is over weighted in principle components just due to the units it is measured in.</p>
+<p>Notice that body mass is in grams and values are in 1000’s compared with bill length in mm with values in 10’s</p>
+<p>Notes:<br />
+* <code>ends_with()</code> is a helper function to select all variables ending with a certain string<br />
+* <code>drop_na()</code> drops all rows with n/a values, can write variables inside () to specifify which columns to drop n/a from<br />
+* <code>scale()</code> scales the data<br />
+* <code>prcomp()</code> runs principle components and changes your df into a list</p>
+<pre class="r"><code>penguins_pca &lt;- penguins %&gt;% 
+  select(body_mass_g, ends_with(&quot;_mm&quot;)) %&gt;% 
+  drop_na() %&gt;% 
+  scale() %&gt;% 
+  prcomp()
 
+penguins_pca$rotation</code></pre>
+<pre><code>##                          PC1         PC2        PC3        PC4
+## body_mass_g        0.5483502 0.084362920 -0.5966001 -0.5798821
+## bill_length_mm     0.4552503 0.597031143  0.6443012 -0.1455231
+## bill_depth_mm     -0.4003347 0.797766572 -0.4184272  0.1679860
+## flipper_length_mm  0.5760133 0.002282201 -0.2320840  0.7837987</code></pre>
+</div>
 
 
 

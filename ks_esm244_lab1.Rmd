@@ -26,3 +26,27 @@ library(plotly)
 library(patchwork)
 ```
 
+## Part 1: PCA with penguins data
+
+First some wrangling! Select columns we need, remove n/a since isn't useful when looking at multivariate space, scale data to make sure no variable is over weighted in principle components just due to the units it is measured in. 
+
+Notice that body mass is in grams and values are in 1000's compared with bill length in mm with values in 10's
+
+Notes:  
+* `ends_with()` is a helper function to select all variables ending with a certain string  
+* `drop_na()` drops all rows with n/a values, can write variables inside () to specifify which columns to drop n/a from  
+* `scale()` scales the data  
+* `prcomp()` runs principle components and changes your df into a list 
+
+```{r}
+penguins_pca <- penguins %>% 
+  select(body_mass_g, ends_with("_mm")) %>% 
+  drop_na() %>% 
+  scale() %>% 
+  prcomp()
+
+penguins_pca$rotation
+
+
+```
+
