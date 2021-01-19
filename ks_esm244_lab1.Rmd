@@ -84,8 +84,34 @@ fish_noaa <- read_excel(here("data", "foss_landings.xlsx")) %>%
   filter(confidentiality == "public")
 ```
 
+### Make a customized graph: 
+
+Notes:  
+* `ggplotly()` create interactive graph  
+* Can highlight using `gghighlight()` to highlight certain series or values
+```{r}
+fish_plot <- ggplot(data = fish_noaa, aes(x = year, y = pounds))+ 
+  geom_line(aes(color = nmfs_name), show.legend = FALSE)+ 
+  theme_minimal() 
+
+fish_plot
+
+ggplotly(fish_plot)
+
+# Use gghighlight to highlight certain series 
+ggplot(data = fish_noaa, aes(x = year, y = pounds, group = nmfs_name))+ 
+  geom_line()+ 
+  theme_minimal()+ 
+  gghighlight(nmfs_name == "tunas")
+
+# Use gghighlights to highlight certain values 
+ggplot(data = fish_noaa, aes(x = year, y = pounds, group = nmfs_name))+ 
+  geom_line(aes(color = nmfs_name))+ 
+  theme_minimal()+ 
+  gghighlight(max(pounds) > 1e8)
 
 
+```
 
 
 
