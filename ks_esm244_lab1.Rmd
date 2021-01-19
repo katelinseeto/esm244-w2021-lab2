@@ -37,6 +37,7 @@ Notes:
 * `drop_na()` drops all rows with n/a values, can write variables inside () to specifify which columns to drop n/a from  
 * `scale()` scales the data  
 * `prcomp()` runs principle components and changes your df into a list 
+* `autoplot()` uses ggplot2 to draw a particular plot for an object of a particular class in a single command. For ex, for PCA data type it will assume you want a PCA biplot
 
 ```{r}
 penguins_pca <- penguins %>% 
@@ -47,7 +48,20 @@ penguins_pca <- penguins %>%
 
 penguins_pca$rotation # brings up the loadings for each of the 4 variables along that principle component
 
+# Create biplot with autoplot(), doesn't have info about variable loadings, or label penguin spp!
+autoplot(penguins_pca)
 
+# Create new plot which contains info we can update aesthetics by, like spp and other variables
+penguin_complete <- penguins %>% 
+  drop_na(body_mass_g, ends_with("_mm"))
+# Includes PCA data, and the observations used to make that PCA 
+# Observations used to create PCA and data used for aesthetics MUST align!
+autoplot(penguins_pca,
+         data = penguin_complete, 
+         colour = 'species',
+         loadings = TRUE, 
+         loadings.label = TRUE)+
+  theme_minimal()
 
 
 ```
