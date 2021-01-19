@@ -113,7 +113,27 @@ ggplot(data = fish_noaa, aes(x = year, y = pounds, group = nmfs_name))+
 
 ```
 
+### Read in data from a URL, use `lubridate()`, `mutate()`, make a graph with months in logical order
 
+Notes:  
+* Can use `read_csv()` using url links, but must weigh benefits/ costs of not knowing exactly what the dataset looked like when you did analysis. May want to download hard copy  
+* `mdy()` from lubridate to convert to date  
+* `month.abb[]` function in base R to replace abbreviation of month name by number, `month.name[]` replaces with full name, could use `case_when()` to manually do the same 
+
+```{r}
+monroe_wt <- read_csv("https://data.bloomington.in.gov/dataset/2c81cfe3-62c2-46ed-8fcf-83c1880301d1/resource/13c8f7aa-af51-4008-80a9-56415c7c931e/download/mwtpdailyelectricitybclear.csv")
+```
+
+```{r}
+monroe_ts <- monroe_wt %>% 
+  mutate(date = mdy(date)) %>% 
+  mutate(record_month = month(date)) %>% #creates new column with just the month from the date column
+  mutate(month_name = month.abb[record_month]) %>% # Create month name and not just the month number 
+  mutate(month_name = fct_reorder(month_name, record_month))# change month to be an ordered factor so it won't show up alphabetically in ggplot 
+
+ggplot(data = monroe_ts, aes(x = month_name, y = total_kWh))+
+  geom_jitter()
+```
 
 
 
