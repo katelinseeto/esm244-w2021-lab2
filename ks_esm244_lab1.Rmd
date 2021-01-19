@@ -63,6 +63,37 @@ autoplot(penguins_pca,
          loadings.label = TRUE)+
   theme_minimal()
 
-
 ```
+
+## Part 2: ggplot2 cutomization and reading in different file types 
+
+### Read in an .xlsx file and do some wrangling 
+
+Notes:  
+* `clean_names()` default is to change all column headings to lower snake case
+* `mutate()` can also be used to transform existing columns, not just to create new ones  
+* `across()` is a helper function, can be used to say like across last 3 cols, or cols that end with...  
+* `tolower()` transform to lowercase 
+* `str_sub()` extracts or replaces substrings (part of a string) from a character vector
+
+```{r}
+fish_noaa <- read_excel(here("data", "foss_landings.xlsx")) %>% 
+  clean_names() %>% 
+  mutate(across(where(is.character), tolower)) %>% # Across any column where that col is a character, want to use function tolower() to change to all lowercase  
+  mutate(nmfs_name = str_sub(nmfs_name, end = -4)) %>% # overwrites col since name nmfs_name is same name as existing column
+  filter(confidentiality == "public")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
