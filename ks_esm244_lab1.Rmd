@@ -135,8 +135,30 @@ ggplot(data = monroe_ts, aes(x = month_name, y = total_kWh))+
   geom_jitter()
 ```
 
+## Part 3: Compound Figures with `patchwork`
 
+A compound figure is when you have multiple graphs but want them to all be part of one figure in a layout you choose.  
 
+Notes:  
+* `patchwork` package that lets you specify lay out of multiple graphs using PEMDAS rules  
+* Use | to put graphs side by side  
+* Use / to put graphs one over the other  
+* Use & at the end to apply a function to all your graphs
+* To use `patchwork` graphs have to be stored ggplot objects
+* `ggsave()` use to save figures to your files and name/ specify file type like .png, .jpeg, can also specify height and width, resolution, etc. 
+
+```{r}
+graph_a <- ggplot(data = penguins, aes(x = body_mass_g, y = flipper_length_mm))+ 
+  geom_point()
+
+graph_b <- ggplot(data = penguins, aes(x = species, y = flipper_length_mm))+ 
+  geom_jitter(aes(color = species), show.legend = FALSE) 
+
+graph_c <- (graph_a | graph_b)/ fish_plot & theme_dark()
+
+ggsave(here("fig", "graph_c_ah.png"), width = 5, height = 6)
+
+```
 
 
 
