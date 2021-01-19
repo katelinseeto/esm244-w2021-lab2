@@ -160,8 +160,14 @@ ggsave(here("fig", "graph_c_ah.png"), width = 5, height = 6)
 
 ```
 
+## Part 4: Create Shiny Web App 
 
-
-
-
-
+Notes:  
+* Will create a folder where everything for app will live  
+* New document> shiny app  
+* Single file means that code for user interface and server will be in the same place
+* Creates an an app.R script that acts like a single code chunk or R script  
+* Automatically populated with opening shiny, and creating a ui and server
+* Within `fluidPage()` is where you will format the entire user interface  
+* `reactive()` creates df that reacts to the user's selection, will always have format like ({})  
+* If referring to a reactive df you must put empty () after it
